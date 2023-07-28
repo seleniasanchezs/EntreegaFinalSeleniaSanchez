@@ -1,28 +1,29 @@
 let carritoVisible = false;
 
-document.addEventListener('DOMContentLoaded', ready);
+    document.addEventListener('DOMContentLoaded', ready);
 
-function ready() {
-  const carritoItems = document.querySelector('.carrito-items');
-  const btnPagar = document.querySelector('.btn-pagar');
-  const searchForm = document.getElementById('search-form');
-  const searchInput = document.getElementById('search-input');
+    function ready() {
+      const carritoItems = document.querySelector('.carrito-items');
+      const btnPagar = document.querySelector('.btn-pagar');
+      const searchForm = document.getElementById('search-form');
+      const searchInput = document.getElementById('search-input');
 
-  document.querySelectorAll('.btn-eliminar').forEach(button => button.addEventListener('click', eliminarItemCarrito));
-  document.querySelectorAll('.sumar-cantidad, .restar-cantidad').forEach(button => button.addEventListener('click', sumarRestarCantidad));
-  document.querySelectorAll('.boton-item').forEach(button => button.addEventListener('click', agregarAlCarritoClicked));
+      document.querySelectorAll('.btn-eliminar').forEach(button => button.addEventListener('click', eliminarItemCarrito));
+      document.querySelectorAll('.sumar-cantidad, .restar-cantidad').forEach(button => button.addEventListener('click', sumarRestarCantidad));
+      document.querySelectorAll('.boton-item').forEach(button => button.addEventListener('click', agregarAlCarritoClicked));
 
-  btnPagar.addEventListener('click', pagarClicked);
+      btnPagar.addEventListener('click', pagarClicked);
 
-  searchForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const searchTerm = searchInput.value.toLowerCase();
-    const productosFiltrados = productos.filter(producto => producto.nombre.toLowerCase().includes(searchTerm));
-    renderizarProductos(productosFiltrados);
-  });
+      searchForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const searchTerm = searchInput.value.toLowerCase();
+        const productosFiltrados = productos.filter(producto => producto.nombre.toLowerCase().includes(searchTerm));
+        renderizarProductos(productosFiltrados);
+      });
 
-  construirCajasProductos(); // Llama a la función para construir las cajas de productos con los datos de productos.js
-}
+      obtenerProductos(); // Llama a la función para obtener los productos desde productos.js
+    }
+
 
 function pagarClicked() {
   alert("Gracias por la compra");
@@ -127,11 +128,10 @@ function actualizarTotalCarrito() {
   total = Math.round(total * 100) / 100;
   document.querySelector('.carrito-precio-total').innerText = `$${total.toLocaleString("es")},00`;
 }
-
-function construirCajasProductos() {
+function construirCajasProductos(productos) {
   const contenedorItems = document.querySelector('.contenedor-items');
   contenedorItems.innerHTML = '';
-  productos.forEach(producto => {
+  productos.forEach(function(producto) {
     const item = document.createElement('div');
     item.classList.add('item');
 
@@ -147,4 +147,17 @@ function construirCajasProductos() {
 
     item.querySelector('.boton-item').addEventListener('click', agregarAlCarritoClicked);
   });
+}
+
+async function obtenerProductos() {
+  try {
+    const response = await fetch('productos.js'); // Cambia la ruta si es necesario
+    if (!response.ok) {
+      throw new Error('Error al obtener los datos de productos.');
+    }
+    const productos = await response.json();
+    construirCajasProductos(productos);
+  } catch (error) {
+    console.error(error);
+  }
 }

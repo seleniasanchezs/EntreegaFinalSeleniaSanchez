@@ -21,7 +21,7 @@ let carritoVisible = false;
         renderizarProductos(productosFiltrados);
       });
 
-      obtenerProductos(); // Llama a la función para obtener los productos desde productos.js
+      obtenerProductos();
     }
 
 
@@ -98,7 +98,7 @@ function sumarRestarCantidad(event) {
 function eliminarItemCarrito(event) {
   const buttonClicked = event.target;
   buttonClicked.parentElement.parentElement.remove();
-  actualizarTotalCarrito(); // Llama a la función aquí después de eliminar el elemento del carrito
+  actualizarTotalCarrito(); 
   ocultarCarrito();
 }
 
@@ -151,7 +151,7 @@ function construirCajasProductos(productos) {
 
 async function obtenerProductos() {
   try {
-    const response = await fetch('productos.js'); // Cambia la ruta si es necesario
+    const response = await fetch('productos.js'); 
     if (!response.ok) {
       throw new Error('Error al obtener los datos de productos.');
     }

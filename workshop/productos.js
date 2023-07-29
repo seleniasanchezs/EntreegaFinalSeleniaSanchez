@@ -29,5 +29,5 @@ const productos = [
     });
   }
   
-  // Llama a la función para construir las cajas de productos
+
   construirCajasProductos();

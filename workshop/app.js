@@ -26,7 +26,6 @@ let carritoVisible = false;
 
 
 function pagarClicked() {
-  alert("Gracias por la compra");
   const carritoItems = document.querySelector('.carrito-items');
   while (carritoItems.firstChild) {
     carritoItems.removeChild(carritoItems.firstChild);
